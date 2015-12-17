@@ -9,9 +9,9 @@
         <meta name="author" content="gedoplan, Dominik Mathmann">
         <link rel="shortcut icon" href="data:image/x-icon;," type="image/x-icon"> 
 
-        <title>Gedoplan - AngularJS Demo</title>
+        <title>Gedoplan - AngularJS i18n</title>
 
-<!--         build:css resources/styles/ext.css -->
+        <!-- build:css resources/styles/ext.css -->
         <!-- injector:bower:css -->
         <link rel="stylesheet" href="bower_components/bootstrap/dist/css/bootstrap.css">
         <!-- endinjector -->
@@ -52,7 +52,13 @@
                 <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
                     <ul class="nav navbar-nav navbar-right">
                         <li>
-                            <a href='' ui-sref="translate">i18n - translate</a>
+                            <a href='' ui-sref="app.translate">i18n - translate</a>
+                        </li>
+                        <li>
+                            <a href='' ui-sref="app.globalize">i18n - globalize</a>
+                        </li>
+                        <li>
+                            <a href='' ui-sref="app.globalizedir">i18n - globalize - byDirective</a>
                         </li>
                     </ul>
                 </div>
@@ -85,6 +91,19 @@
             </div>
         </footer>
 
+
+        <!-- build:js scripts/globalize.js -->
+        <!-- injector:globalize:js -->
+        <script src="bower_components/cldrjs/dist/cldr.js"></script>
+        <script src="bower_components/cldrjs/dist/cldr/event.js"></script>
+        <script src="bower_components/cldrjs/dist/cldr/supplemental.js"></script>
+        <script src="bower_components/cldrjs/dist/cldr/unresolved.js"></script>
+        <script src="bower_components/globalize/dist/globalize.js"></script>
+        <script src="bower_components/globalize/dist/globalize/number.js"></script>
+        <script src="bower_components/globalize/dist/globalize/date.js"></script>
+        <!-- endinjector -->
+        <!-- endbuild -->
+
         <!-- build:js scripts/ext.js -->
         <!-- injector:bower:js -->
         <script src="bower_components/jquery/dist/jquery.js"></script>
@@ -102,6 +121,10 @@
         <!-- build:js scripts/modules.js -->
         <!-- injector:js -->
         <script src="app.js"></script>
+        <script src="modules/globalize/directive/globalize-directives.js"></script>
+        <script src="modules/globalize/directive/globalizeByDirective.js"></script>
+        <script src="modules/globalize/globalize-services.js"></script>
+        <script src="modules/globalize/globalize.js"></script>
         <script src="modules/translate/translateInline.js"></script>
         <script src="modules/translate/translatePartitial.js"></script>
         <script src="modules/translate/translateStaticFile.js"></script>

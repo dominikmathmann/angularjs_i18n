@@ -1,3 +1,7 @@
+/**
+ * @description
+ * Dieses Modul lädt seine Übersetzungen über statische JSON-Dateien
+ */
 (function () {
     "use strict";
 

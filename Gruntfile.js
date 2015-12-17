@@ -1,14 +1,7 @@
 module.exports = function (grunt) {
-    // nur ein kleiner Helfer der unsere grunt-Module Lädt
-    // ohne diesen Eintrag wäre ein: ' grunt.loadNpmTasks('...modulename...');'
-    // für jedes grunt-module nötig
     require('load-grunt-tasks')(grunt);
 
     grunt.initConfig({
-        // grunt-contrib-jshint, Code Quality Check 
-        // die Datei ".jshintrc" definiert die entsprechenden Regeln
-        // nach denen der JavaScript Code geprüft wird.
-        // Vollständige Liste aller Optionen: http://jshint.com/docs/options/
         jshint: {
             options: {
                 jshintrc: '.jshintrc'
@@ -17,16 +10,10 @@ module.exports = function (grunt) {
                 src: "public_html/{,modules/**/}*.js"
             }
         },
-        // grunt-contrib-clean, Dateien / Ordner löschen
-        // löscht unseren tmp-Files und target-Ordner der wärend unseres Build-Prozesses
-        // erstellt wird
         clean: {
             dist: ['.tmp', 'dist', 'public_html/*.tmp'],
             tmp: ['.tmp', 'public_html/*.tmp', '*.war']
         },
-        // grunt-injector
-        // fügt automatisch unsere Scripte, CSS-Dateien und Bower-Abhänigkeiten in die index.xhtml ein
-        // die Position in der HTML-Seite wird durch einen entsprechenden Bereich '<!-- injector:[type] -->' festgelegt
         injector: {
             options: {
                 bowerPrefix: 'bower:',
@@ -45,6 +32,19 @@ module.exports = function (grunt) {
                     ]
                 }
             },
+            globalize: {
+                options: {
+                    starttag: "<!-- injector:globalize:{{ext}} -->"
+                },
+                files: {
+                    'public_html/index.html': [
+                        'public_html/bower_components/cldrjs/dist/{cldr,cldr/*}.js',
+                        'public_html/bower_components/globalize/dist/globalize.js',
+                        'public_html/bower_components/globalize/dist/globalize/number.js',
+                        'public_html/bower_components/globalize/dist/globalize/date.js',
+                    ]
+                }
+            },
             prepare: {
                 options: {
                     min: true,
@@ -56,11 +56,6 @@ module.exports = function (grunt) {
                 }
             }
         },
-        // grunt-ng-annotate
-        // AngularJS arbeitet mit Dependency Injection die über Namensgleichheit realisiert ist
-        // eine Komprimierung der Sourcen wird in aller Regel dazu führen das dies nicht mehr möglich ist
-        // Angular bietet dazu eine entsprechende DI-sichere Schreibweise an, die wir uns hier generrieren lassen 
-        // (anstatt sie selber zu Verwenden)
         ngAnnotate: {
             build: {
                 files: [{
@@ -71,9 +66,6 @@ module.exports = function (grunt) {
                     }]
             }
         },
-        // grunt-postcss + autoprefixer
-        // Dient dazu Manipulationen an den StyleSheets durchzuführen
-        // autoprefixer wird hier genutzt um Browser-Spezifische CSS Attribute zu generieren
         postcss: {
             options: {
                 processors: [
@@ -91,22 +83,14 @@ module.exports = function (grunt) {
                     }]
             }
         },
-        // grunt-contrib-copy
-        // der Name ist Programm: Dateien kopieren
         copy: {
             release: {
                 expand: true,
                 cwd: 'public_html',
-                src: ['{,modules/**/}*.html', 'resources/{fonts,img}/**'],
+                src: ['{,modules/**/}*.html', 'resources/{*,!styles}/**', 'bower_components/cldr-data/**/*.json'],
                 dest: 'dist/'
             }
         },
-        // grunt-usemin
-        // ein relativ komplexer Task der aus mehreren Einzelschritten besteht
-        // 'useminPrepare' führt keine eigenen Änderungen an den Sourcen durch
-        // stattdessen generriert dieser Task dynamisch zusätzliche Tasks:
-        // cssmin,uglify,concat,filerev jeweils mit dem target: 'generated'
-        // vollständige Doku: https://github.com/yeoman/grunt-usemin
         useminPrepare: {
             html: 'public_html/index.tmp',
             options: {
@@ -118,8 +102,6 @@ module.exports = function (grunt) {
             css: ['dist/styles/{,*/}*.css'],
             js: ['dist/scripts/{,*/}*.js']
         },
-        // grunt-contrib-htmlmin
-        // minimiert die größe von HTML Dateien
         htmlmin: {
             release: {
                 options: {
@@ -139,38 +121,25 @@ module.exports = function (grunt) {
     });
 
     grunt.registerTask("development", [
-        // Sourcen für die Entwicklung setzen
-        'injector:development'
+        'injector:development',
+        'injector:globalize'
     ]);
 
     grunt.registerTask('release', [
-        // alte Dateien Löschen
         'clean',
-        // Code Quality Check
         'jshint:all',
-        // unsere Module für das uglyfy Vorbereiten
         'ngAnnotate:build',
-        // CSS Regeln ergänzen
         'postcss:release',
-        // Dateien kopieren (html, Bilder, Fonts)
         'copy:release',
-        // min Versionen (und unsere ngAnnotatet-Vorbereiteten Sourcen) referenzieren
         'injector:prepare',
-        // usemin Konfigurieren
-        'useminPrepare',
-        // Zusammenfassen
-        'concat:generated',
-        // CSS minimieren
-        'cssmin:generated',
-        // JS minimieren
-        'uglify:generated',
-        // Referenzen ersetzen
-        'usemin',
-        // HTML minimieren
-        'htmlmin:release',
-        // Sourcen für die Entwicklung wieder setzen
         'injector:development',
-        // temporäre Dateien löschen
+        'useminPrepare',
+        'concat:generated',
+        'cssmin:generated',
+        'uglify:generated',
+        'usemin',
+        'htmlmin:release',
+        'injector:development',
         'clean:tmp'
     ]);
 

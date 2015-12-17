@@ -1,3 +1,9 @@
+/**
+ * @description
+ * Dieses Modul lädt seine Übersetzungen über eine URL
+ * In der "run" Methode ist zu sehen das wir den Request der eigentlich an ein Backend
+ * gehen würde zu Demo zwecken mocken.
+ */
 (function () {
     "use strict";
 

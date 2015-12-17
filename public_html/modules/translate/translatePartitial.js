@@ -1,3 +1,7 @@
+/**
+ * @description
+ * Dieses Modul lädt nur einen definierten Teil der Übersetzungen
+ */
 (function () {
     "use strict";
 
@@ -18,6 +22,8 @@
 
             .controller('translateCtrl', function ($translate, $translatePartialLoader) {
                 var vm = this;
+                // Übersetzungs-Teil: 'demo" laden. Der Pfad zu diesem Teil für de:
+                // resources/i18n/partitial/demo/de.json
                 $translatePartialLoader.addPart('demo');
                 $translate.refresh().then(function () {
                     $translate('TITEL').then(function (text) {

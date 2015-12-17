@@ -1,0 +1,55 @@
+<div class="content col-lg-10">
+    <div class="row">
+        <div class="col-lg-3">
+            Sprache: <input type="text" ng-model="vm.language"/>
+        </div>
+        <div class="col-lg-1">
+            <button type="button" class="btn btn-primary" ng-click="vm.changeLanguage(vm.language)">ändern</button>
+        </div>
+    </div>
+
+    <br/><br/>
+    <div class="panel panel-default">
+        <div class="panel-heading">Einfache Ausgaben formatieren</div>
+        <div class="panel-body">
+            <ul class="vertical">
+                <li>
+                    Zahl:{{vm.number}}
+                </li>
+                <li>
+                    gerundet: {{vm.numberRounded}}
+                </li>
+                <li>
+                    Datum:{{vm.date}}
+                </li>
+                <li>
+                    Datum (lang):{{vm.dateLong}}
+                </li>
+            </ul>
+        </div>
+    </div>
+    <div class="panel panel-default">
+        <div class="panel-heading">Eingaben formatieren</div>
+        <div class="panel-body">
+            <form>
+                <div class="row">
+                    <div class="form-group col-lg-4" >
+                        <label for="number1">Zahl</label>
+                        <input type="text" class="form-control" id="number1" ng-model="vm.z1">
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="form-group col-lg-4" >
+                        <label for="date1">Datum (short)</label>
+                        <input type="text" class="form-control" id="date1" ng-model="vm.d1">
+                    </div>
+                    <div class="form-group col-lg-4" >
+                        <label for="date2">Datum (yyMMdd)</label>
+                        <input type="text" class="form-control" id="date2" ng-model="vm.d2">
+                    </div>
+                </div>
+                <button type="button" class="btn btn-primary" ng-click="vm.format()">formatieren</button>
+            </form>
+        </div>
+    </div>
+</div>

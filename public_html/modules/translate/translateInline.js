@@ -1,3 +1,7 @@
+/**
+ * @description
+ * Dieses Modul verwendet Übersetzungen die direkt im Modul deklariert werden
+ */
 (function () {
     "use strict";
 

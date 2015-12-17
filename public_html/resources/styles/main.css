@@ -37,3 +37,9 @@ footer{
     padding-left: 8%;
     padding-top: 70px;
 }
+
+ul.vertical li
+{
+    display: inline;
+    padding-right: 10%;
+}

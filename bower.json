@@ -16,7 +16,8 @@
     "angular-translate-loader-url": "~2.8.1",
     "angular-translate-loader-static-files": "~2.8.1",
     "angular-mocks": "~1.4.8",
-    "angular-translate-loader-partial": "~2.8.1"
+    "angular-translate-loader-partial": "~2.8.1",
+    "globalize": "~1.0.0"
   },
   "devDependencies": {}
 }
